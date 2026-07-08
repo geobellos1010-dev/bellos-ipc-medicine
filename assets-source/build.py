@@ -81,7 +81,7 @@ JSONLD = '''<script type="application/ld+json">
   },
   "telephone": "[ΤΗΛΕΦΩΝΟ]",
   "email": "[EMAIL]",
-  "url": "https://ipcmedicine.gr",
+  "url": "https://ipcmedicine.com",
   "priceRange": "€€",
   "openingHours": ["Mo-Fr 09:00-21:00"],
   "sameAs": [
@@ -530,7 +530,7 @@ BODY = f'''
           <div class="info-list">
             <div class="info"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><b>Διεύθυνση</b><span class="ph">[Οδός &amp; αριθμός], Κορωπί 194 00, Αττική</span></div></div>
             <div class="info"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c0 8 7 15 15 15l-.5-3.5-4-1-2 2c-2.5-1.3-4.7-3.5-6-6l2-2-1-4Z"/></svg></span><div><b>Τηλέφωνο</b><span class="ph">[+30 21X XXX XXXX]</span></div></div>
-            <div class="info"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></span><div><b>Email</b><span class="ph">[info@ipcmedicine.gr]</span></div></div>
+            <div class="info"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></span><div><b>Email</b><span class="ph">[info@ipcmedicine.com]</span></div></div>
             <div class="info"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><b>Ώρες λειτουργίας</b><span class="ph">Δευτ.–Παρ. [09:00–21:00] · Σάββ. [κατόπιν ραντεβού]</span></div></div>
           </div>
           <div class="map-note">
@@ -588,7 +588,7 @@ BODY = f'''
         <ul>
           <li><span style="color:var(--faint)">[Οδός], Κορωπί 194 00</span></li>
           <li><a href="tel:+30">[+30 21X XXX XXXX]</a></li>
-          <li><a href="mailto:info@ipcmedicine.gr">[info@ipcmedicine.gr]</a></li>
+          <li><a href="mailto:info@ipcmedicine.com">[info@ipcmedicine.com]</a></li>
           <li><span style="color:var(--faint)">Δευτ.–Παρ. [09:00–21:00]</span></li>
         </ul>
       </div>
@@ -661,13 +661,13 @@ HEAD = f'''<!doctype html>
 <meta name="author" content="Δρ. Γεώργιος Ι. Μπέλλος">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#46528c">
-<link rel="canonical" href="https://ipcmedicine.gr/">
+<link rel="canonical" href="https://ipcmedicine.com/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="el_GR">
 <meta property="og:site_name" content="iPC Medicine">
 <meta property="og:title" content="iPC Medicine | Γενικός & Οικογενειακός Ιατρός στο Κορωπί">
 <meta property="og:description" content="Ολοκληρωμένη, προσωποκεντρική ιατρική φροντίδα στο Κορωπί — Δρ. Γεώργιος Μπέλλος.">
-<meta property="og:url" content="https://ipcmedicine.gr/">
+<meta property="og:url" content="https://ipcmedicine.com/">
 <meta name="twitter:card" content="summary_large_image">
 <style>{CSS_FINAL}</style>
 </head>
