@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPC Medicine — Checklist Παράδοσης</title>
+<style>
+:root{
+  --paper:#ffffff; --surface:#f5f6fb; --surface-2:#eceff9; --line:#e1e4f1;
+  --ink:#1b1f2e; --muted:#5a6076; --blue:#46528c; --blue-ink:#3a4578;
+  --red:#d8433a; --red-soft:#fbeceb; --ok:#1f9d6b;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#14161f; --surface:#1b1e29; --surface-2:#232637; --line:#2d3142;
+    --ink:#eceef5; --muted:#969cb2; --blue:#8f9ad4; --blue-ink:#aab3e6;
+    --red:#f0776e; --red-soft:#2b1e20; --ok:#48c493;
+  }
+}
+:root[data-theme="light"]{
+  --paper:#ffffff; --surface:#f5f6fb; --surface-2:#eceff9; --line:#e1e4f1;
+  --ink:#1b1f2e; --muted:#5a6076; --blue:#46528c; --blue-ink:#3a4578;
+  --red:#d8433a; --red-soft:#fbeceb; --ok:#1f9d6b;
+}
+:root[data-theme="dark"]{
+  --paper:#14161f; --surface:#1b1e29; --surface-2:#232637; --line:#2d3142;
+  --ink:#eceef5; --muted:#969cb2; --blue:#8f9ad4; --blue-ink:#aab3e6;
+  --red:#f0776e; --red-soft:#2b1e20; --ok:#48c493;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  line-height:1.55;-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased}
+.wrap{max-width:660px;margin:0 auto;padding:0 18px 72px}
+
+/* header */
+.top{height:4px;background:linear-gradient(90deg,var(--red) 0 46%,var(--blue) 54% 100%)}
+header{padding:30px 0 22px}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--blue-ink);margin:0 0 8px}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;margin:0 0 12px;font-weight:800;
+  letter-spacing:-.02em;text-wrap:balance}
+h1 b{color:var(--red);font-weight:800}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-size:12.5px;font-weight:600;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+.chip b{color:var(--ink)}
+
+/* progress */
+.prog{position:sticky;top:0;z-index:5;background:var(--paper);
+  padding:10px 0 12px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.bar{height:7px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--blue));
+  border-radius:99px;transition:width .35s ease}
+.prog small{display:block;font-size:12px;color:var(--muted);margin-top:6px;font-weight:600}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:18px 16px;margin:16px 0}
+.card.warn{background:var(--red-soft);border-color:color-mix(in srgb,var(--red) 30%,var(--line))}
+.card h2{display:flex;align-items:center;gap:12px;margin:0 0 4px;font-size:18px;
+  font-weight:750;letter-spacing:-.01em}
+.num{flex:none;width:30px;height:30px;border-radius:9px;background:var(--blue);
+  color:#fff;font-size:15px;font-weight:800;display:grid;place-items:center;
+  font-variant-numeric:tabular-nums}
+.card.warn .num{background:var(--red)}
+.sub{color:var(--muted);font-size:13.5px;margin:2px 0 12px}
+
+/* checkable items */
+ul.todo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+ul.todo li{margin:0}
+label.item{display:flex;gap:11px;align-items:flex-start;padding:9px 8px;border-radius:10px;
+  cursor:pointer;font-size:15px;transition:background .15s}
+label.item:hover{background:var(--surface-2)}
+label.item input{appearance:none;-webkit-appearance:none;flex:none;margin:2px 0 0;
+  width:21px;height:21px;border:2px solid var(--muted);border-radius:6px;cursor:pointer;
+  position:relative;transition:all .15s}
+label.item input:checked{background:var(--ok);border-color:var(--ok)}
+label.item input:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;
+  border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+label.item input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+label.item span{transition:color .15s}
+label.item input:checked ~ span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.item code{font-family:var(--mono);font-size:13px;background:var(--surface-2);
+  padding:1px 5px;border-radius:5px;color:var(--blue-ink)}
+
+/* copy rows (DNS) */
+.rec{margin-top:12px}
+.rec .rlabel{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 6px}
+.copy{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;
+  padding:10px 12px;margin:0 0 7px;cursor:pointer;font-family:var(--mono);font-size:13.5px;
+  color:var(--ink);transition:border-color .15s,background .15s}
+.copy:hover{border-color:var(--blue)}
+.copy:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.copy .k{color:var(--muted);font-weight:600;flex:none}
+.copy .v{flex:1;overflow-x:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+.copy .ic{flex:none;font-size:11px;font-weight:700;color:var(--blue-ink);
+  font-family:var(--sans);letter-spacing:.04em;text-transform:uppercase}
+.copy.copied{border-color:var(--ok)}
+.copy.copied .ic{color:var(--ok)}
+
+.note{font-size:13px;color:var(--muted);margin:12px 2px 0;padding-left:14px;
+  border-left:2px solid var(--line)}
+.note b{color:var(--ink)}
+.ref{font-family:var(--mono);font-size:12.5px;word-break:break-all;color:var(--blue-ink)}
+
+footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:34px;
+  padding-top:18px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="top"></div>
+<div class="wrap">
+
+  <header>
+    <p class="kicker">Παράδοση σε πελάτη · On-site</p>
+    <h1>iPC Medicine — στήσιμο <b>στο ιατρείο</b></h1>
+    <div class="meta">
+      <span class="chip">📍 <b>Θησέως 3, Κορωπί</b></span>
+      <span class="chip">⏱ <b>~40 λεπτά</b></span>
+      <span class="chip">🌐 <b>ipcmedicine.gr</b></span>
+    </div>
+  </header>
+
+  <div class="prog" role="status" aria-live="polite">
+    <div class="bar"><i id="fill"></i></div>
+    <small id="ptext">0 από 0 ολοκληρώθηκαν</small>
+  </div>
+
+  <!-- PREP -->
+  <section class="card">
+    <h2><span class="num" style="background:var(--muted)">✓</span> Πριν φύγεις — έχε μαζί</h2>
+    <ul class="todo">
+      <li><label class="item"><input type="checkbox"><span>Κάρτα για την αγορά του domain</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Στοιχεία <b>registrant</b>: όνομα, ΑΦΜ, διεύθυνση, τηλέφωνο</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Ο γιατρός συνδεδεμένος σε <code>email</code> / <code>GitHub</code> / <code>Google</code></span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Το κινητό του δίπλα (για SMS / 2FA)</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Επιβεβαίωσε <b>ποιο email</b> ανήκει σε ποιον λογαριασμό</span></label></li>
+    </ul>
+    <p class="note">Στοιχεία: <b>Δρ. Γεώργιος Ι. Μπέλλος</b> · Θησέως 3, Κορωπί 194 00 · 693 2297 466 · 210 662 3987</p>
+  </section>
+
+  <!-- 1 PAPAKI -->
+  <section class="card">
+    <h2><span class="num">1</span> Papaki — domain</h2>
+    <p class="sub">Δικό του account, το domain στο όνομά του.</p>
+    <ul class="todo">
+      <li><label class="item"><input type="checkbox"><span>Εγγραφή στο papaki.com με <b>το email του</b> → επιβεβαίωση link</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Αναζήτηση & αγορά <code>ipcmedicine.gr</code></span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Στοιχεία <b>registrant = τα δικά του</b> (όνομα / ΑΦΜ)</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Πληρωμή — ολοκλήρωση</span></label></li>
+    </ul>
+  </section>
+
+  <!-- 2 GITHUB -->
+  <section class="card">
+    <h2><span class="num">2</span> GitHub — transfer repo</h2>
+    <p class="sub">Από τον δικό μας λογαριασμό στον δικό του.</p>
+    <ul class="todo">
+      <li><label class="item"><input type="checkbox"><span><b>Εμείς:</b> repo → Settings → Danger Zone → <b>Transfer</b> → username του</span></label></li>
+      <li><label class="item"><input type="checkbox"><span><b>Αυτός:</b> login → κωδικός συσκευής στο email του</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Αν ζητηθεί <b>2FA</b> → authenticator app στο κινητό του</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Email «Accept transfer» → <b>Accept</b></span></label></li>
+    </ul>
+    <p class="note">Repo: <span class="ref">github.com/ragwebcompany-coder/bellos-ipc-medicine</span></p>
+  </section>
+
+  <!-- 3 PAGES -->
+  <section class="card">
+    <h2><span class="num">3</span> GitHub Pages — ON</h2>
+    <p class="sub">Το <code>CNAME</code> + <code>.nojekyll</code> είναι ήδη μέσα στο repo.</p>
+    <ul class="todo">
+      <li><label class="item"><input type="checkbox"><span>Repo → <b>Settings → Pages</b></span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Source: <b>Deploy from a branch</b> → <code>main</code> / <code>/ (root)</code> → Save</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Custom domain: <code>ipcmedicine.gr</code> (μπαίνει αυτόματα από το CNAME)</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Μετά το DNS → τσέκαρε <b>Enforce HTTPS</b></span></label></li>
+    </ul>
+  </section>
+
+  <!-- 4 DNS -->
+  <section class="card">
+    <h2><span class="num">4</span> DNS στο Papaki</h2>
+    <p class="sub">Πάτα για αντιγραφή. Στη «Διαχείριση DNS».</p>
+
+    <div class="rec">
+      <p class="rlabel">4 × A record — host <code>@</code></p>
+      <button class="copy" data-v="185.199.108.153"><span class="k">A @</span><span class="v">185.199.108.153</span><span class="ic">Copy</span></button>
+      <button class="copy" data-v="185.199.109.153"><span class="k">A @</span><span class="v">185.199.109.153</span><span class="ic">Copy</span></button>
+      <button class="copy" data-v="185.199.110.153"><span class="k">A @</span><span class="v">185.199.110.153</span><span class="ic">Copy</span></button>
+      <button class="copy" data-v="185.199.111.153"><span class="k">A @</span><span class="v">185.199.111.153</span><span class="ic">Copy</span></button>
+    </div>
+
+    <div class="rec">
+      <p class="rlabel">CNAME — host <code>www</code></p>
+      <button class="copy" data-v="USERNAME.github.io"><span class="k">CNAME www</span><span class="v">&lt;username&gt;.github.io</span><span class="ic">Copy</span></button>
+    </div>
+
+    <ul class="todo" style="margin-top:14px">
+      <li><label class="item"><input type="checkbox"><span>Πρόσθεσε τα 4 A records</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Πρόσθεσε το CNAME <b>(βάλε το πραγματικό username του)</b></span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Περίμενε το ✅ + SSL στο GitHub (λεπτά έως ~1 ώρα)</span></label></li>
+    </ul>
+  </section>
+
+  <!-- 5 GMB -->
+  <section class="card warn">
+    <h2><span class="num">5</span> Google My Business</h2>
+    <p class="sub">Το μόνο που θέλει τον χώρο — γι' αυτό είσαι εδώ.</p>
+    <ul class="todo">
+      <li><label class="item"><input type="checkbox"><span>business.google.com → <b>Add business</b> (Google account του)</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>iPC Medicine · «Γενικός ιατρός» · Θησέως 3 · ωράριο · site</span></label></li>
+      <li><label class="item"><input type="checkbox"><span><b>Video verification:</b> πινακίδα → είσοδος → εσωτερικό → απόδειξη λειτουργίας</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Ανέβασε φωτό, ώρες, σύνδεσε το <code>ipcmedicine.gr</code></span></label></li>
+    </ul>
+    <p class="note">Αν δεν βγει το video → εναλλακτικά <b>postcard</b> στη διεύθυνση (~1-2 βδομάδες).</p>
+  </section>
+
+  <!-- 6 CLOSING -->
+  <section class="card">
+    <h2><span class="num">6</span> Πριν φύγεις</h2>
+    <ul class="todo">
+      <li><label class="item"><input type="checkbox"><span>Σε κάνει <b>collaborator</b> στο repo (για μελλοντικές αλλαγές μας)</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Τράβα <b>2-3 καλές φωτό χώρου</b> → gallery + Google προφίλ</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Επιβεβαίωσε το <b>ακριβές όνομα</b> στην πινακίδα & το ωράριο</span></label></li>
+      <li><label class="item"><input type="checkbox"><span>Άνοιξε <code>ipcmedicine.gr</code> στο κινητό — δουλεύει με HTTPS ✔</span></label></li>
+    </ul>
+  </section>
+
+  <footer>Πάτα τα κουτάκια — η πρόοδος αποθηκεύεται στο κινητό σου.</footer>
+</div>
+
+<script>
+(function(){
+  var boxes=[].slice.call(document.querySelectorAll('label.item input'));
+  var KEY='ipc_checklist_v1';
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  boxes.forEach(function(b,i){
+    if(saved[i])b.checked=true;
+    b.addEventListener('change',function(){save();paint()});
+  });
+  function save(){
+    var s={};boxes.forEach(function(b,i){if(b.checked)s[i]=1});
+    try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}
+  }
+  var fill=document.getElementById('fill'),ptext=document.getElementById('ptext');
+  function paint(){
+    var done=boxes.filter(function(b){return b.checked}).length;
+    var pct=boxes.length?Math.round(done/boxes.length*100):0;
+    fill.style.width=pct+'%';
+    ptext.textContent=done+' από '+boxes.length+' ολοκληρώθηκαν · '+pct+'%';
+  }
+  paint();
+
+  [].slice.call(document.querySelectorAll('.copy')).forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var v=btn.getAttribute('data-v');
+      var ic=btn.querySelector('.ic');
+      function done(){btn.classList.add('copied');ic.textContent='✓ OK';
+        setTimeout(function(){btn.classList.remove('copied');ic.textContent='Copy'},1400)}
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(v).then(done,done)
+      }else{
+        var t=document.createElement('textarea');t.value=v;document.body.appendChild(t);
+        t.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(t);done()
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

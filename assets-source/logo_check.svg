@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 112" width="300" height="280">
+<rect width="120" height="112" fill="white"/>
+<path fill="none" stroke="#d8433a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" d="M60 104 C 34 82,12 60,12 36 C 12 20,26 10,40 10 C 50 10,56 17,60 26 C 64 17,70 10,80 10 C 94 10,108 20,108 36 C 108 60,86 82,60 104 Z"/>
+<path fill="none" stroke="#46528c" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round" d="M60 92 C 38 74,22 57,22 38 C 22 27,32 20,42 20 C 49 20,55 25,60 33 C 65 25,71 20,78 20 C 88 20,98 27,98 38 C 98 57,82 74,60 92 Z"/>
+<circle fill="none" stroke="#46528c" stroke-width="3.4" cx="60" cy="40" r="6"/>
+<circle fill="none" stroke="#46528c" stroke-width="3.4" cx="46.5" cy="47" r="4.3"/>
+<circle fill="none" stroke="#46528c" stroke-width="3.4" cx="73.5" cy="47" r="4.3"/>
+<path fill="none" stroke="#46528c" stroke-width="3.4" stroke-linejoin="round" d="M60 47 C 67 53,67 62,60 66 C 53 62,53 53,60 47 Z"/>
+<path fill="none" stroke="#46528c" stroke-width="3.4" stroke-linejoin="round" d="M46.5 53 C 51.5 58,51.5 65,46.5 68 C 41.5 65,41.5 58,46.5 53 Z"/>
+<path fill="none" stroke="#46528c" stroke-width="3.4" stroke-linejoin="round" d="M73.5 53 C 78.5 58,78.5 65,73.5 68 C 68.5 65,68.5 58,73.5 53 Z"/>
+</svg>
